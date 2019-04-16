@@ -19,23 +19,7 @@ export default {
   },
   data() {
     return {
-      todos: [
-        {
-          id: 1,
-          title: "todo one",
-          completed: false
-        },
-        {
-          id: 2,
-          title: "todo two",
-          completed: true
-        },
-        {
-          id: 3,
-          title: "todo three",
-          completed: false
-        }
-      ]
+      todos: []
     };
   },
   methods: {
@@ -45,6 +29,12 @@ export default {
     addTodo(newTodo) {
       this.todos = [...this.todos, newTodo];
     }
+  },
+  //component did mount
+  created() {
+    fetch("https://jsonplaceholder.typicode.com/todos")
+      .then(res => res.json())
+      .then(data => (this.todos = data));
   }
 };
 </script>
