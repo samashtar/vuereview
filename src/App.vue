@@ -23,13 +23,31 @@ export default {
     };
   },
   methods: {
+    //delete
     deleteTodo(id) {
-      this.todos = this.todos.filter(todo => todo.id !== id);
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        method: "delete"
+      })
+        .then(res => res.json())
+        .then(data => (this.todos = this.todos.filter(todo => todo.id !== id)));
     },
+    //post
     addTodo(newTodo) {
-      this.todos = [...this.todos, newTodo];
+      const { title, completed } = newTodo;
+
+      fetch("https://jsonplaceholder.typicode.com/todos", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ title, completed })
+      })
+        .then(res => res.json())
+        .then(data => (this.todos = [...this.todos, data]));
     }
   },
+  // get
   //component did mount
   created() {
     fetch("https://jsonplaceholder.typicode.com/todos")
